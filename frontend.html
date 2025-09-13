@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Info Chatbot</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+    #chatbox { width: 100%; max-width: 500px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 0 10px #ccc; display: flex; flex-direction: column; height: 500px; overflow: hidden; }
+    #messages { flex: 1; padding: 15px; overflow-y: auto; }
+    .msg { margin: 10px 0; }
+    .user { text-align: right; color: #007bff; }
+    .bot { text-align: left; color: #333; }
+    #inputArea { display: flex; border-top: 1px solid #ddd; }
+    input { flex: 1; padding: 10px; border: none; }
+    button { padding: 10px 15px; border: none; background: #007bff; color: white; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <div id="messages"></div>
+    <div id="inputArea">
+      <input type="text" id="userInput" placeholder="Ask about campus: library, dining, etc.">
+      <button onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const messages = document.getElementById('messages');
+
+    function appendMsg(text, sender) {
+      const msg = document.createElement('div');
+      msg.className = 'msg ' + sender;
+      msg.textContent = text;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function sendMsg() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+      appendMsg(text, 'user');
+      input.value = '';
+      setTimeout(() => respond(text), 500);
+    }
+
+    function respond(query) {
+      let response = "I'm here to help with schedules, dining, library, and more!";
+      if (query.toLowerCase().includes('library')) response = "The library opens from 8 AM to 10 PM daily.";
+      else if (query.toLowerCase().includes('dining')) response = "Dining halls are open from 7 AM to 9 PM.";
+      else if (query.toLowerCase().includes('schedule')) response = "Check your course schedule on the student portal.";
+      else if (query.toLowerCase().includes('facilities')) response = "Campus facilities include gym, pool, and labs.";
+      else if (query.toLowerCase().includes('admin')) response = "Visit the admin office Mon–Fri, 9 AM–5 PM.";
+      appendMsg(response, 'bot');
+    }
+  </script>
+</body>
+</html>
